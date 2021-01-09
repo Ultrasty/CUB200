@@ -22,7 +22,7 @@ random_index = np.random.permutation(len(imgs_path))
 imgs_path = np.array(imgs_path)[random_index]
 all_labels = np.array(all_labels)[random_index]
 
-i = int(len(imgs_path) * 0.9)
+i = int(len(imgs_path) * 0.8)
 
 train_path = imgs_path[:i]
 train_labels = all_labels[:i]
