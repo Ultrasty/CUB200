@@ -5,26 +5,18 @@
 import tensorflow as tf
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import *
-import matplotlib.pyplot as plt
 import numpy as np
 import glob
 
 print('tensorflow_version:{}'.format(tf.__version__))
 
-imgs_path = glob.glob('birds/*/*.jpg')
-
+imgs_path = glob.glob('CT/*/*.jpg')
 img_p = imgs_path[1000]
-
 all_labels_name = [img_p.split('\\')[1].split('.')[1] for img_p in imgs_path]
-
 label_names = np.unique(all_labels_name)
-
 label_to_index = dict((name, i) for i, name in enumerate(label_names))
-
 index_to_label = dict((v, k) for k, v in label_to_index.items())
-
 all_labels = [label_to_index.get(name) for name in all_labels_name]
-
 np.random.seed(2021)
 random_index = np.random.permutation(len(imgs_path))
 
@@ -122,7 +114,7 @@ model.add(Dense(1024, activation='relu'))
 #         keras.layers.BatchNormalization(),
 model.add(BatchNormalization())
 #         keras.layers.Dense(200)
-model.add(Dense(200))
+model.add(Dense(3))
 # ])
 
 model.compile(optimizer=tf.keras.optimizers.Adam(0.0001),

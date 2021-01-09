@@ -4,25 +4,16 @@
 
 import tensorflow as tf
 from tensorflow.keras.models import *
-from tensorflow.keras.layers import *
-import matplotlib.pyplot as plt
 import numpy as np
 import glob
 
 print('tensorflow_version:{}'.format(tf.__version__))
 
 imgs_path = glob.glob('birds/*/*.jpg')
-
 all_labels_name = [img_p.split('\\')[1].split('.')[1] for img_p in imgs_path]
-
 label_names = np.unique(all_labels_name)
-
 label_to_index = dict((name, i) for i, name in enumerate(label_names))
-
 index_to_label = dict((v, k) for k, v in label_to_index.items())
-
-i = int(len(imgs_path) * 0.8)
-
 model = load_model('model.h5')
 
 
