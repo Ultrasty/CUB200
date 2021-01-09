@@ -22,7 +22,7 @@ random_index = np.random.permutation(len(imgs_path))
 imgs_path = np.array(imgs_path)[random_index]
 all_labels = np.array(all_labels)[random_index]
 
-i = int(len(imgs_path) * 0.8)
+i = int(len(imgs_path) * 0.9)
 
 train_path = imgs_path[:i]
 train_labels = all_labels[:i]
@@ -35,7 +35,7 @@ test_ds = tf.data.Dataset.from_tensor_slices((test_path, test_labels))
 
 def load_img(path, label):
     image = tf.io.read_file(path)
-    image = tf.image.decode_jpeg(image, channels=1)
+    image = tf.image.decode_jpeg(image, channels=3)
     image = tf.image.resize(image, [256, 256])
     image = tf.cast(image, tf.float32)
     image = image / 255
@@ -55,7 +55,7 @@ test_ds = test_ds.batch(BATCH_SIZE)
 # model = keras.Sequential([
 model = Sequential()
 #         keras.layers.Conv2D(64,(3,3), input_shape=(256, 256, 3),activation='relu'),
-model.add(Conv2D(64, kernel_size=(3, 3), activation="relu", input_shape=(256, 256, 1)))
+model.add(Conv2D(64, kernel_size=(3, 3), activation="relu", input_shape=(256, 256, 3)))
 #         keras.layers.BatchNormalization(),
 model.add(BatchNormalization())
 #         keras.layers.Conv2D(64, (3, 3), activation='relu'),
