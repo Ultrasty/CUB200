@@ -9,7 +9,7 @@ import glob
 
 print('tensorflow_version:{}'.format(tf.__version__))
 
-imgs_path = glob.glob('birds/*/*.jpg')
+imgs_path = glob.glob('CTtest/*/*.jpg')
 all_labels_name = [img_p.split('\\')[1].split('.')[1] for img_p in imgs_path]
 label_names = np.unique(all_labels_name)
 label_to_index = dict((name, i) for i, name in enumerate(label_names))
@@ -26,7 +26,7 @@ def load_and_process_image(path):
     return image
 
 
-for n in range(90, 150):
+for n in range(90):
     test_tensor = load_and_process_image(imgs_path[n])
     test_tensor = tf.expand_dims(test_tensor, axis=0)
     pred = model.predict(test_tensor)
