@@ -11,7 +11,6 @@ import glob
 print('tensorflow_version:{}'.format(tf.__version__))
 
 imgs_path = glob.glob('CT/*/*.jpg')
-img_p = imgs_path[1000]
 all_labels_name = [img_p.split('\\')[1].split('.')[1] for img_p in imgs_path]
 label_names = np.unique(all_labels_name)
 label_to_index = dict((name, i) for i, name in enumerate(label_names))
@@ -36,7 +35,7 @@ test_ds = tf.data.Dataset.from_tensor_slices((test_path, test_labels))
 
 def load_img(path, label):
     image = tf.io.read_file(path)
-    image = tf.image.decode_jpeg(image, channels=3)
+    image = tf.image.decode_jpeg(image, channels=1)
     image = tf.image.resize(image, [256, 256])
     image = tf.cast(image, tf.float32)
     image = image / 255
@@ -56,7 +55,7 @@ test_ds = test_ds.batch(BATCH_SIZE)
 # model = keras.Sequential([
 model = Sequential()
 #         keras.layers.Conv2D(64,(3,3), input_shape=(256, 256, 3),activation='relu'),
-model.add(Conv2D(64, kernel_size=(3, 3), activation="relu", input_shape=(256, 256, 3)))
+model.add(Conv2D(64, kernel_size=(3, 3), activation="relu", input_shape=(256, 256, 1)))
 #         keras.layers.BatchNormalization(),
 model.add(BatchNormalization())
 #         keras.layers.Conv2D(64, (3, 3), activation='relu'),

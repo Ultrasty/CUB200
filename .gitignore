@@ -3,3 +3,6 @@
 /birds
 *.h5
 /CT
+.jpg
+.png
+/CTtest
