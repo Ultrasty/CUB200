@@ -10,7 +10,7 @@ import glob
 
 print('tensorflow_version:{}'.format(tf.__version__))
 
-imgs_path = glob.glob('CT/*/*.jpg')
+imgs_path = glob.glob('CT/*/*/*.jpg')
 all_labels_name = [img_p.split('\\')[1].split('.')[1] for img_p in imgs_path]
 label_names = np.unique(all_labels_name)
 label_to_index = dict((name, i) for i, name in enumerate(label_names))
@@ -52,84 +52,55 @@ train_ds = train_ds.repeat().shuffle(300).batch(BATCH_SIZE)
 
 test_ds = test_ds.batch(BATCH_SIZE)
 
-# model = keras.Sequential([
 model = Sequential()
-#         keras.layers.Conv2D(64,(3,3), input_shape=(256, 256, 3),activation='relu'),
 model.add(Conv2D(64, kernel_size=(3, 3), activation="relu", input_shape=(256, 256, 3)))
-#         keras.layers.BatchNormalization(),
 model.add(BatchNormalization())
-#         keras.layers.Conv2D(64, (3, 3), activation='relu'),
 model.add(Conv2D(64, kernel_size=(3, 3), activation="relu"))
-#         keras.layers.BatchNormalization(),
-#         keras.layers.MaxPooling2D(),
 model.add(BatchNormalization())
 model.add(MaxPooling2D())
-#         keras.layers.Conv2D(128, (3, 3), activation='relu'),
 model.add(Conv2D(128, kernel_size=(3, 3), activation="relu"))
-#         keras.layers.BatchNormalization(),
 model.add(BatchNormalization())
-#         keras.layers.Conv2D(128, (3, 3), activation='relu'),
 model.add(Conv2D(128, kernel_size=(3, 3), activation="relu"))
-#         keras.layers.BatchNormalization(),
 model.add(BatchNormalization())
-#         keras.layers.MaxPooling2D(),
 model.add(MaxPooling2D())
-#         keras.layers.Conv2D(256, (3, 3), activation='relu'),
 model.add(Conv2D(256, kernel_size=(3, 3), activation="relu"))
-#         keras.layers.BatchNormalization(),
 model.add(BatchNormalization())
-#         keras.layers.Conv2D(256, (3, 3), activation='relu'),
 model.add(Conv2D(256, kernel_size=(3, 3), activation="relu"))
-#         keras.layers.BatchNormalization(),
 model.add(BatchNormalization())
-#         keras.layers.MaxPooling2D,
 model.add(MaxPooling2D())
-#         keras.layers.Conv2D(512, (3, 3), activation='relu'),
 model.add(Conv2D(512, kernel_size=(3, 3), activation="relu"))
-#         keras.layers.BatchNormalization(),
 model.add(BatchNormalization())
-#         keras.layers.Conv2D(512, (3, 3), activation='relu'),
 model.add(Conv2D(512, kernel_size=(3, 3), activation="relu"))
-#         keras.layers.BatchNormalization(),
 model.add(BatchNormalization())
-#         keras.layers.MaxPooling2D,
 model.add(MaxPooling2D())
-#         keras.layers.Conv2D(512, (3, 3), activation='relu'),
 model.add(Conv2D(512, kernel_size=(3, 3), activation="relu"))
-#         keras.layers.BatchNormalization(),
 model.add(BatchNormalization())
-#         keras.layers.Conv2D(512, (3, 3), activation='relu'),
 model.add(Conv2D(512, kernel_size=(3, 3), activation="relu"))
-#         keras.layers.BatchNormalization(),
 model.add(BatchNormalization())
-#         keras.layers.Conv2D(512, (3, 3), activation='relu'),
 model.add(Conv2D(512, kernel_size=(3, 3), activation="relu"))
-#         keras.layers.BatchNormalization(),
 model.add(BatchNormalization())
-#         keras.layers.GlobalAveragePooling2D(),
 model.add(GlobalAveragePooling2D())
-#         keras.layers.Dense(1024, activation='relu'),
 model.add(Dense(1024, activation='relu'))
-#         keras.layers.BatchNormalization(),
 model.add(BatchNormalization())
-#         keras.layers.Dense(200)
 model.add(Dense(3))
-# ])
 
 model.compile(optimizer=tf.keras.optimizers.Adam(0.0001),
               loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
               metrics=['acc']
-)
+              )
 
 train_count = len(train_path)
 test_count = len(test_path)
 
-steps_per_epoch = train_count//BATCH_SIZE
-validation_steps = test_count//BATCH_SIZE
+steps_per_epoch = train_count // BATCH_SIZE
+validation_steps = test_count // BATCH_SIZE
 
-history = model.fit(train_ds,epochs=10,
-                    steps_per_epoch=steps_per_epoch,
-                    validation_data=test_ds,
-                    validation_steps=validation_steps)
+try:
+    history = model.fit(train_ds, epochs=7,
+                        steps_per_epoch=steps_per_epoch,
+                        validation_data=test_ds,
+                        validation_steps=validation_steps)
+except Exception:
+    model.save('model.h5')
 
 model.save('model.h5')
