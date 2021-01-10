@@ -10,11 +10,10 @@ import glob
 print('tensorflow_version:{}'.format(tf.__version__))
 
 imgs_path = glob.glob('CTtest/*/*.jpg')
-all_labels_name = [img_p.split('\\')[1].split('.')[1] for img_p in imgs_path]
-label_names = np.unique(all_labels_name)
-label_to_index = dict((name, i) for i, name in enumerate(label_names))
-index_to_label = dict((v, k) for k, v in label_to_index.items())
+
 model = load_model('model.h5')
+
+index_to_label = dict({0: 'Cap', 1: 'Covid-19', 2: 'Normal'})
 
 
 def load_and_process_image(path):
