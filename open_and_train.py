@@ -3,7 +3,7 @@
 
 
 import tensorflow as tf
-from tensorflow.keras.models import Sequential
+from tensorflow.keras.models import *
 from tensorflow.keras.layers import *
 import numpy as np
 import glob
@@ -52,42 +52,7 @@ train_ds = train_ds.repeat().shuffle(300).batch(BATCH_SIZE)
 
 test_ds = test_ds.batch(BATCH_SIZE)
 
-model = Sequential()
-model.add(Conv2D(64, kernel_size=(3, 3), activation="relu", input_shape=(256, 256, 3)))
-model.add(BatchNormalization())
-model.add(Conv2D(64, kernel_size=(3, 3), activation="relu"))
-model.add(BatchNormalization())
-model.add(MaxPooling2D())
-model.add(Conv2D(128, kernel_size=(3, 3), activation="relu"))
-model.add(BatchNormalization())
-model.add(Conv2D(128, kernel_size=(3, 3), activation="relu"))
-model.add(BatchNormalization())
-model.add(MaxPooling2D())
-model.add(Conv2D(256, kernel_size=(3, 3), activation="relu"))
-model.add(BatchNormalization())
-model.add(Conv2D(256, kernel_size=(3, 3), activation="relu"))
-model.add(BatchNormalization())
-model.add(MaxPooling2D())
-model.add(Conv2D(512, kernel_size=(3, 3), activation="relu"))
-model.add(BatchNormalization())
-model.add(Conv2D(512, kernel_size=(3, 3), activation="relu"))
-model.add(BatchNormalization())
-model.add(MaxPooling2D())
-model.add(Conv2D(512, kernel_size=(3, 3), activation="relu"))
-model.add(BatchNormalization())
-model.add(Conv2D(512, kernel_size=(3, 3), activation="relu"))
-model.add(BatchNormalization())
-model.add(Conv2D(512, kernel_size=(3, 3), activation="relu"))
-model.add(BatchNormalization())
-model.add(GlobalAveragePooling2D())
-model.add(Dense(1024, activation='relu'))
-model.add(BatchNormalization())
-model.add(Dense(3))
-
-model.compile(optimizer=tf.keras.optimizers.Adam(0.0001),
-              loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
-              metrics=['acc']
-              )
+model = load_model('model.h5')
 
 train_count = len(train_path)
 test_count = len(test_path)
@@ -96,12 +61,12 @@ steps_per_epoch = train_count // BATCH_SIZE
 validation_steps = test_count // BATCH_SIZE
 
 try:
-    history = model.fit(train_ds, epochs=7,
+    history = model.fit(train_ds, epochs=1,
                         steps_per_epoch=steps_per_epoch,
                         validation_data=test_ds,
                         validation_steps=validation_steps)
 except Exception:
-    model.save('model.h5')
+    model.save('model1.h5')
 
 
-model.save('model.h5')
+model.save('model1.h5')

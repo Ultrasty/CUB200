@@ -26,7 +26,7 @@ def load_and_process_image(path):
     return image
 
 
-for n in range(90):
+for n in range(352):
     test_tensor = load_and_process_image(imgs_path[n])
     test_tensor = tf.expand_dims(test_tensor, axis=0)
     pred = model.predict(test_tensor)
