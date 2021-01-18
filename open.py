@@ -31,7 +31,7 @@ result = {
     "pred_count_Covid-19": 0,
     "pred_count_Normal": 0
 }
-for n in range(1500):
+for n in range(2000):
     try:
         path = imgs_path[n].split('\\')[1]
         if path not in resultList:
