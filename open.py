@@ -9,13 +9,11 @@ import glob
 
 print('tensorflow_version:{}'.format(tf.__version__))
 
-imgs_path = glob.glob('CTtest/*/*.jpg')
-all_labels_name = [img_p.split('\\')[1].split('.')[1] for img_p in imgs_path]
-label_names = np.unique(all_labels_name)
-label_to_index = dict((name, i) for i, name in enumerate(label_names))
-index_to_label = dict((v, k) for k, v in label_to_index.items())
+imgs_path = glob.glob('CTtest-from-slice-level/*/*.jpg')
+
 model = load_model('model.h5')
 
+index_to_label = dict({0: 'cap', 1: 'covid-19', 2: 'normal'})
 
 def load_and_process_image(path):
     image = tf.io.read_file(path)
@@ -26,7 +24,7 @@ def load_and_process_image(path):
     return image
 
 
-for n in range(352):
+for n in range(800):
     test_tensor = load_and_process_image(imgs_path[n])
     test_tensor = tf.expand_dims(test_tensor, axis=0)
     pred = model.predict(test_tensor)

@@ -1,8 +1,7 @@
-
 % 把一通道图改成三通道图
-fileFolder=fullfile('./CT');
+fileFolder=fullfile('./CTtest-from-slice-level');
 
-dirOutput=dir(fullfile(fileFolder,'*/*/*.jpg'));
+dirOutput=dir(fullfile(fileFolder,'*/*.jpg'));
 
 fileNames={dirOutput.name};
 fileFolder={dirOutput.folder};
