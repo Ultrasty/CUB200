@@ -60,9 +60,12 @@ test_count = len(test_path)
 steps_per_epoch = train_count//BATCH_SIZE
 validation_steps = test_count//BATCH_SIZE
 
-history = model.fit(train_ds,epochs=1,
-                    steps_per_epoch=steps_per_epoch,
-                    validation_data=test_ds,
-                    validation_steps=validation_steps)
+try:
+    history = model.fit(train_ds,epochs=20,
+                        steps_per_epoch=steps_per_epoch,
+                        validation_data=test_ds,
+                        validation_steps=validation_steps)
+except Exception:
+    model.save('model1.h5')
 
 model.save('model1.h5')

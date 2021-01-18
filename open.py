@@ -25,9 +25,32 @@ def load_and_process_image(path):
     return image
 
 
-for n in range(90):
-    test_tensor = load_and_process_image(imgs_path[n])
-    test_tensor = tf.expand_dims(test_tensor, axis=0)
-    pred = model.predict(test_tensor)
-    print(index_to_label.get(np.argmax(pred)))
-    print(imgs_path[n])
+resultList = {}
+result = {
+    "pred_count_Cap": 0,
+    "pred_count_Covid-19": 0,
+    "pred_count_Normal": 0
+}
+for n in range(1500):
+    try:
+        path = imgs_path[n].split('\\')[1]
+        if path not in resultList:
+            resultList[path] = {
+                "pred_count_Cap": 0,
+                "pred_count_Covid-19": 0,
+                "pred_count_Normal": 0
+            }
+        test_tensor = load_and_process_image(imgs_path[n])
+        test_tensor = tf.expand_dims(test_tensor, axis=0)
+        pred = model.predict(test_tensor)
+        if index_to_label.get(np.argmax(pred)) == 'Cap':
+            resultList[path]["pred_count_Cap"] = resultList[path]["pred_count_Cap"] + 1
+        if index_to_label.get(np.argmax(pred)) == 'Covid-19':
+            resultList[path]["pred_count_Covid-19"] = resultList[path]["pred_count_Covid-19"] + 1
+        if index_to_label.get(np.argmax(pred)) == 'Normal':
+            resultList[path]["pred_count_Normal"] = resultList[path]["pred_count_Normal"] + 1
+    except Exception:
+        print("一共有", n, "张图片")
+        break
+for key in resultList:
+    print(key, ":", resultList[key])

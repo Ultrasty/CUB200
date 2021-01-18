@@ -127,7 +127,7 @@ test_count = len(test_path)
 steps_per_epoch = train_count//BATCH_SIZE
 validation_steps = test_count//BATCH_SIZE
 
-history = model.fit(train_ds,epochs=10,
+history = model.fit(train_ds,epochs=2,
                     steps_per_epoch=steps_per_epoch,
                     validation_data=test_ds,
                     validation_steps=validation_steps)
