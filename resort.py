@@ -2,7 +2,7 @@ import glob
 import numpy as np
 import shutil
 
-images_path = glob.glob("resorttest/*/cap002/*.jpg")
+images_path = glob.glob("CT/*/cap033/*.jpg")
 all_labels_name = [img_p.split('\\')[0] + "\\" + img_p.split('\\')[1] + "\\" + img_p.split('\\')[2] for img_p in
                    images_path]
 
@@ -30,6 +30,6 @@ for i in labelName:
 
 
     for index, i in enumerate(List):
-        shutil.copyfile(labelName[0]+"\\"+ListBefore[index],labelName[0]+"\\"+List[index])
+        shutil.move(labelName[0]+"\\"+ListBefore[index],labelName[0]+"\\"+List[index])
 
 print(labelName[0])
