@@ -1,0 +1,13 @@
+fileFolder=fullfile('.');
+
+dirOutput=dir(fullfile(fileFolder,'*/*.png'));
+
+fileNames={dirOutput.name};
+fileFolder={dirOutput.folder};
+
+for i = 1:length(fileNames)
+    path = [char(fileFolder(i)),'\',char(fileNames(i))];
+    img = imread(path);
+    img_new = histeq(img);
+    imwrite(img_new,path);
+end
